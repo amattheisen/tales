@@ -42,23 +42,6 @@ app.layout = html.Div(children=[
         """),
 
     dcc.Store(id='session', storage_type='session'),
-    # I would like to convert the radio items and submit button into 
-    # a group of buttons instead.
-    #dcc.RadioItems(id='selector', value='start',
-    #    options=[
-    #        {'label': 'Up', 'value': 'up'},
-    #        {'label': 'Down', 'value': 'down'},
-    #        {'label': 'Left', 'value': 'left'},
-    #        {'label': 'Right', 'value': 'right'},
-    #        {'label': 'A', 'value': 'a'},
-    #        {'label': 'B', 'value': 'b'},
-    #        {'label': 'Select', 'value': 'select'},
-    #        {'label': 'Start', 'value': 'start'},
-    #        {'label': 'Clear', 'value': 'clear'},
-    #        {'label': 'Back', 'value': 'back'},
-    #    ],
-    #),
-    #html.Button(id='submit-button', n_clicks=0, children='Submit'),
     html.Button(id='a', n_clicks=0, children='a'),
     html.Button(id='b', n_clicks=0, children='b'),
     html.Button(id='up', n_clicks=0, children='up'),
@@ -127,45 +110,6 @@ def update_browsing_history(a, b, up, down, left, right, select, start, back,
     else:
         new_value_str = '{' + ', '.join([old_value[1:-1], new_value_str]) + '}'
     return CONTENT[button_id], new_value_str, ''
-
-
-## XYZ BUTTON PRESS
-#@app.callback([Output('content', 'children'),
-#               Output('history', 'children'),
-#               Output('err', 'children')],
-#              [Input('up-button', 'children')],
-#              [State('content', 'children'),
-#               State('history', 'children'),
-#               ])
-#def update_browsing_history(up, down, content, old_value):
-#    """
-#    Update browsing history using selector each time the Append button is clicked.
-#
-#    """
-#
-#    # Clear History
-#    if new_value == "clear":
-#        return CONTENT['start'], '{' + "{}: \"start\"".format(n_clicks) + '}', ''
-#
-#    # Back (delete last history entry)
-#    if new_value == "back":
-#        # split off last value
-#        split_value = old_value.split(',')
-#        if len(split_value) > 1:
-#            old_value = ','.join(split_value[:-1]) + '}'
-#            last_value = split_value[-2].split(':')[1][2:-1]
-#            return CONTENT[last_value], old_value, ''
-#        else:
-#            return CONTENT['start'], '{' + "{}: \"start\"".format(n_clicks) + '}', ''
-#
-#    # Standard processing
-#    new_value_str = "{}: \"{}\"".format(n_clicks, new_value)
-#    if not old_value or len(old_value) <= 2:
-#        new_value_str = '{' + new_value_str + '}'
-#    else:
-#        new_value_str = '{' + ', '.join([old_value[1:-1], new_value_str]) + '}'
-#    return CONTENT[new_value], new_value_str, ''
-
 
 
 if __name__ == '__main__':
