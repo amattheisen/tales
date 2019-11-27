@@ -37,10 +37,10 @@ app = dash.Dash(__name__, external_stylesheets=EXTERNAL_STYLESHEETS)
 
 app.layout = html.Div(children=[
     html.H1(children='Tales'),
-    html.Div(children="""
-        Built on Dash: A web application framework for Python.
-        """),
-
+    html.Div([
+        html.P("A button press tracking App Built on Dash."),
+        html.P(""),
+        html.P("Click buttons below.")]),
     dcc.Store(id='session', storage_type='session'),
     html.Button(id='a', n_clicks=0, children='a'),
     html.Button(id='b', n_clicks=0, children='b'),
@@ -76,21 +76,19 @@ app.layout = html.Div(children=[
 def update_browsing_history(a, b, up, down, left, right, select, start, back,
         clear, content, old_value):
     """
-    Update browsing history from a button press.
+    Update browsing history from any button press.
 
     """
     ctx = dash.callback_context
 
     if not ctx.triggered:
-        button_id = 'No clicks yet'
-        n_clicks = 0
+        button_id = 'start'
     else:
         button_id = ctx.triggered[0]['prop_id'].split('.')[0]
-        n_clicks = ctx.triggered[0]['value']
 
     # Clear History
     if button_id == "clear":
-        return CONTENT['start'], '{' + "{}: \"start\"".format(n_clicks) + '}', ''
+        return CONTENT['start'], "{\"start\"}", ''
 
     # Back (delete last history entry)
     if button_id == "back":
@@ -98,13 +96,13 @@ def update_browsing_history(a, b, up, down, left, right, select, start, back,
         split_value = old_value.split(',')
         if len(split_value) > 1:
             old_value = ','.join(split_value[:-1]) + '}'
-            last_value = split_value[-2].split(':')[1][2:-1]
+            last_value = split_value[-2][2:-1]
             return CONTENT[last_value], old_value, ''
         else:
-            return CONTENT['start'], '{' + "{}: \"start\"".format(n_clicks) + '}', ''
+            return CONTENT['start'], "{\"start\"}", ''
 
     # Standard processing
-    new_value_str = "{}: \"{}\"".format(n_clicks, button_id)
+    new_value_str = "\"{}\"".format(button_id)
     if not old_value or len(old_value) <= 2:
         new_value_str = '{' + new_value_str + '}'
     else:
